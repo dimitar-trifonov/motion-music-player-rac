@@ -1,0 +1,38 @@
+id: motion-detection.logic
+version: 1.0
+type: object
+description: Logic for motion detection with delay
+appliesTo: motion.state
+rules:
+  - id: validate-motion-threshold
+    description: Validates motion threshold and delay
+    condition: motionThreshold > 0 && delay === 500
+    error: "Invalid motion threshold or delay"
+    guards:
+      - field: motionThreshold
+        type: number
+      - field: delay
+        type: number
+    effects:
+      - validate: motionThreshold
+      - validate: delay
+
+  - id: validate-motion-delay
+    description: Validates motion state change delay
+    condition: currentTime - lastStateChange >= delay
+    error: "State change too soon, must wait for delay"
+    guards:
+      - field: currentTime
+        type: number
+      - field: lastStateChange
+        type: number
+      - field: delay
+        type: number
+    effects:
+      - validate: currentTime
+      - validate: lastStateChange
+      - validate: delay
+
+metadata:
+  createdBy: system
+  tags: [motion, detection, delay] 

@@ -1,0 +1,55 @@
+id: motion-status
+version: 1.1
+description: |
+  Motion detection status display.
+  On mount, checks if device supports motion detection.
+  If available, shows permission status and request button if needed.
+  If not available, shows appropriate status message.
+  Does not track motion states - only handles availability and permission.
+
+components:
+  - type: container
+    fields:
+      - name: onMount
+        type: function
+        description: Checks if device motion detection is available
+      - name: permissionStatus
+        type: string
+        description: Current permission status (granted/denied)
+      - name: availabilityStatus
+        type: string
+        description: Whether motion detection is available on the device
+    submitEvent: check-motion-availability
+
+  - type: button
+    fields:
+      - name: text
+        type: string
+        description: Display text for the permission request button
+      - name: onClick
+        type: function
+        description: Handler for permission request button clicks
+    submitEvent: request-motion-permission
+
+  - type: text
+    fields:
+      - name: text
+        type: string
+        description: Display text for motion status
+
+  - type: indicator
+    fields:
+      - name: state
+        type: string
+        description: Current status (available/not-available)
+      - name: color
+        type: string
+        description: Color indicator for current status
+
+views:
+  - path: /
+    layout: main
+
+metadata:
+  createdBy: system
+  tags: [motion, ui, component] 

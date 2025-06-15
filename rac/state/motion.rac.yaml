@@ -1,0 +1,35 @@
+id: motion.state
+version: 1.0
+type: object
+description: Motion detection state
+fields:
+  - name: isMoving
+    type: boolean
+    required: true
+    description: Current motion state
+  - name: lastStateChange
+    type: number
+    required: true
+    description: Timestamp of last state change
+  - name: motionThreshold
+    type: number
+    required: true
+    description: Threshold for motion detection
+  - name: delay
+    type: number
+    required: true
+    description: Delay in milliseconds before state change (500ms)
+  - name: isAvailable
+    type: boolean
+    required: true
+    description: Whether device motion detection is available
+  - name: hasPermission
+    type: boolean
+    required: true
+    description: Whether user has granted motion detection permission
+access:
+  read: public
+  write: device-motion
+metadata:
+  createdBy: system
+  tags: [motion, detection] 

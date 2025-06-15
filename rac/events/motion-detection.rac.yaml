@@ -1,0 +1,126 @@
+id: motion-detection.events
+version: 1.0
+type: object
+description: Events for handling device motion detection
+events:
+  - id: initialize-device-motion
+    type: system
+    description: Initializes motion detection when the component is mounted, checking device capability and availability
+    triggers:
+      - source:
+          type: system
+          name: component-mounted
+    logicChecks:
+      - type: and
+        checks:
+          - logic: motion-validation.logic#validate-motion-availability
+            onError: halt
+    actions:
+      - type: update
+        state: motion.state
+        fields:
+          - isAvailable: true
+    metadata:
+      createdBy: system
+      tags: [motion, initialization]
+
+  - id: request-motion-permission
+    type: user
+    description: Handles the user's response to the motion permission request
+    triggers:
+      - source:
+          type: user
+          name: permission-request
+    logicChecks:
+      - type: and
+        checks:
+          - logic: motion-validation.logic#validate-motion-permission
+            onError: halt
+    actions:
+      - type: update
+        state: motion.state
+        fields:
+          - hasPermission: true
+    metadata:
+      createdBy: system
+      tags: [motion, permission]
+
+  - id: handle-motion-error
+    type: system
+    description: Handles any errors that occur during motion detection, resetting the motion state
+    triggers:
+      - source:
+          type: system
+          name: error
+    logicChecks:
+      - type: and
+        checks:
+          - logic: motion-validation.logic#validate-motion-error
+            onError: halt
+    actions:
+      - type: update
+        state: motion.state
+        fields:
+          - isAvailable: false
+          - hasPermission: false
+    metadata:
+      createdBy: system
+      tags: [motion, error]
+
+  - id: device-motion-detected
+    type: system
+    description: Triggered when device motion exceeds the threshold, indicating active movement
+    triggers:
+      - source:
+          type: system
+          name: device-motion
+          params:
+            threshold: 0.5
+            delay: 100
+    logicChecks:
+      - type: and
+        checks:
+          - logic: motion-detection.logic#validate-motion-threshold
+            onError: halt
+          - logic: motion-detection.logic#validate-motion-delay
+            onError: halt
+          - logic: motion-validation.logic#validate-motion-state
+            onError: halt
+    actions:
+      - type: update
+        state: motion.state
+        fields:
+          - isMoving: true
+          - lastStateChange: currentTime
+    metadata:
+      createdBy: system
+      tags: [motion, detection]
+
+  - id: device-motion-stopped
+    type: system
+    description: Triggered when device motion falls below the threshold, indicating the device is still
+    triggers:
+      - source:
+          type: system
+          name: device-motion
+          params:
+            threshold: 0.5
+            delay: 100
+    logicChecks:
+      - type: and
+        checks:
+          - logic: motion-detection.logic#validate-motion-threshold
+            onError: halt
+          - logic: motion-detection.logic#validate-motion-delay
+            onError: halt
+          - logic: motion-validation.logic#validate-motion-state
+            onError: halt
+    actions:
+      - type: update
+        state: motion.state
+        fields:
+          - isMoving: false
+          - lastStateChange: currentTime
+    metadata:
+      createdBy: system
+      tags: [motion, detection] 
