@@ -6,6 +6,7 @@ fields:
   - name: tech
     type: string
     required: true
+    description: Technology stack identifier
   - name: mappings
     type: list
     items:
@@ -13,10 +14,13 @@ fields:
       fields:
         - name: source
           type: string
+          description: RaC specification path
         - name: target
           type: string
+          description: Technology implementation target
         - name: strategy
           type: string
+          description: Mapping approach
   - name: version
     type: string
   - name: metadata
