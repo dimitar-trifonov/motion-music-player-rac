@@ -1,50 +1,46 @@
-id: motion-status
-version: 1.1
-description: |
-  Motion detection status display.
-  On mount, checks if device supports motion detection.
-  If available, shows permission status and request button if needed.
-  If not available, shows appropriate status message.
-  Does not track motion states - only handles availability and permission.
-
+id: motion-status.ui
+version: 1.0
+type: object
+description: UI components for motion detection system
+bindsTo: motion.state
 components:
-  - type: container
+  - type: component
     fields:
-      - name: onMount
-        type: function
-        description: Checks if device motion detection is available
-      - name: permissionStatus
+      - name: isMoving
+        type: boolean
+        description: Current motion state
+      - name: controlMode
         type: string
-        description: Current permission status (granted/denied)
-      - name: availabilityStatus
-        type: string
-        description: Whether motion detection is available on the device
-    submitEvent: check-motion-availability
+        description: Current control mode
+      - name: varianceThreshold
+        type: number
+        description: Motion detection threshold
+    submitEvent: motion-status-update
 
-  - type: button
+  - type: component
     fields:
-      - name: text
+      - name: controlMode
         type: string
-        description: Display text for the permission request button
-      - name: onClick
-        type: function
-        description: Handler for permission request button clicks
-    submitEvent: request-motion-permission
+        description: Current control mode
+      - name: varianceThreshold
+        type: number
+        description: Motion detection threshold
+        format: slider
+        min: 0.1
+        max: 5.0
+        step: 0.1
+    submitEvent: update-motion-settings
 
-  - type: text
+  - type: component
     fields:
-      - name: text
-        type: string
-        description: Display text for motion status
-
-  - type: indicator
-    fields:
-      - name: state
-        type: string
-        description: Current status (available/not-available)
-      - name: color
-        type: string
-        description: Color indicator for current status
+      - name: sensitivity
+        type: number
+        description: Motion detection sensitivity
+        format: slider
+        min: 0
+        max: 100
+        step: 1
+    submitEvent: update-motion-sensitivity
 
 views:
   - path: /
@@ -52,4 +48,4 @@ views:
 
 metadata:
   createdBy: system
-  tags: [motion, ui, component] 
+  tags: [motion, ui] 

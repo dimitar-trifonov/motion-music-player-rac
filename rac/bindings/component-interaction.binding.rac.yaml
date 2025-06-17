@@ -29,6 +29,14 @@ mappings:
     target: react.data
     strategy: data-flow
 
+  # Motion Sensitivity (Threshold) Binding
+  - source: motion.state.motionThreshold
+    target: react.state.motionThreshold
+    description: Binds the motion sensitivity (threshold) value to the React state for UI slider control.
+    pattern: data
+    updateEvent: update-motion-threshold
+    direction: bidirectional
+
 communication:
   patterns:
     - name: parent-child
@@ -65,6 +73,12 @@ state:
         - updates: propagated
         - persistence: session
         - sharing: direct
+        - fields:
+            - autoAdvance:
+                type: boolean
+                default: true
+                description: Whether to automatically advance to the next track
+                updateEvent: toggle-auto-advance
 
     - name: global
       scope: application

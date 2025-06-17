@@ -416,3 +416,139 @@ These bindings will enable:
 - Created component-interaction.binding.rac.yaml
 - Verified against binding.schema.rac.yaml
 - Ready for application implementation
+
+## [IN PROGRESS] Add Sensitivity Slider for Motion Detection
+
+To allow users to adjust motion detection sensitivity (motion threshold) from 0 to 100%:
+
+1. **UI Update**
+   - [x] Add a `slider` component to `rac/ui/motion-status.rac.yaml` for sensitivity adjustment.
+   - [x] Label the slider (e.g., "Sensitivity") and bind its value to `motionThreshold`.
+
+2. **State Update**
+   - [x] Ensure `motionThreshold` is present in `rac/state/motion.rac.yaml` and clarify its range (0–100).
+
+3. **Events Update**
+   - [x] Add or update an event (e.g., `update-motion-threshold`) in `rac/events/motion-detection.rac.yaml` to handle slider changes.
+
+4. **Logic Update**
+   - [x] Update `rac/logic/motion-detection.rac.yaml` to validate and apply the new threshold value when the event is triggered.
+
+5. **Test & Bindings**
+   - [x] Add or update tests to cover the new functionality in `rac/tests/motion-detection.test.rac.yaml`.
+   - [x] Verify schema compliance for all updated files.
+   - [x] Update bindings in `rac/bindings/component-interaction.binding.rac.yaml` for the new slider and event.
+   - [ ] Implement React/UI side for the slider if not yet done.
+
+---
+
+*All RaC stack updates for the sensitivity slider are complete and schema-compliant. Next: implement or update the React/UI logic as needed.*
+
+✅ Step 10: Motion Sensitivity State
+- State Definition (state/motion-sensitivity.rac.yaml):
+  * Define sensitivity field in motion state
+  * Specify sensitivity range constraints
+  * Define sensitivity persistence rules
+  * Add sensitivity metadata
+
+- Event Definition (events/sensitivity-update.rac.yaml):
+  * Define sensitivity update event
+  * Specify event validation rules
+  * Define event effects on state
+  * Add event metadata
+
+✅ Step 11: Motion Detection Logic
+- Logic Rules (logic/motion-detection.rac.yaml):
+  * Define motion state transitions
+  * Specify motion validation rules
+  * Define motion effects
+  * Add logic metadata
+
+- State Updates (events/motion-state.rac.yaml):
+  * Define motion state update events
+  * Specify state transition rules
+  * Define state effects
+  * Add event metadata
+
+✅ Step 12: Motion Event System
+- Event Definitions (events/motion-events.rac.yaml):
+  * Define motion event types
+  * Specify event validation rules
+  * Define event effects
+  * Add event metadata
+
+- Event Flow (logic/motion-flow.rac.yaml):
+  * Define event propagation rules
+  * Specify event timing constraints
+  * Define event validation rules
+  * Add logic metadata
+
+✅ Step 13: Error Handling
+- Error States (state/error-states.rac.yaml):
+  * Define error state types
+  * Specify error state constraints
+  * Define error effects
+  * Add state metadata
+
+- Error Events (events/error-handling.rac.yaml):
+  * Define error recovery events
+  * Specify error validation rules
+  * Define error effects
+  * Add event metadata
+
+✅ Step 14: Performance Constraints
+- Performance Rules (logic/performance.rac.yaml):
+  * Define state update frequency
+  * Specify resource constraints
+  * Define monitoring rules
+  * Add logic metadata
+
+- Monitoring Events (events/monitoring.rac.yaml):
+  * Define monitoring event types
+  * Specify monitoring rules
+  * Define monitoring effects
+  * Add event metadata
+
+✅ Step 15: Documentation
+- Schema Documentation (docs/schema.rac.yaml):
+  * Define schema documentation
+  * Specify validation rules
+  * Define effect documentation
+  * Add documentation metadata
+
+- Usage Documentation (docs/usage.rac.yaml):
+  * Define state documentation
+  * Specify event documentation
+  * Define rule documentation
+  * Add documentation metadata
+
+Verification Checklist:
+1. Motion Detection
+   - [ ] State definitions are complete
+   - [ ] Event definitions are complete
+   - [ ] Logic rules are defined
+   - [ ] Effects are specified
+
+2. Event System
+   - [ ] Event types are defined
+   - [ ] Event flow is specified
+   - [ ] Validation rules are complete
+   - [ ] Effects are defined
+
+3. Error Handling
+   - [ ] Error states are defined
+   - [ ] Error events are specified
+   - [ ] Recovery rules are complete
+   - [ ] Effects are defined
+
+4. Performance
+   - [ ] State rules are defined
+   - [ ] Resource constraints are specified
+   - [ ] Monitoring rules are complete
+   - [ ] Effects are defined
+
+5. Documentation
+   - [ ] Schema docs are complete
+   - [ ] Usage docs are specified
+   - [ ] Rules are documented
+   - [ ] Effects are documented

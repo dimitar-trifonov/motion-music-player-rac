@@ -1,38 +1,33 @@
 id: motion-detection.logic
 version: 1.0
 type: object
-description: Logic for motion detection with delay
+description: Logic for motion detection system
 appliesTo: motion.state
 rules:
+  - id: validate-motion-history
+    if: "magnitudeHistory.length >= 2"
+    then:
+      - error: "Insufficient motion history for detection"
   - id: validate-motion-threshold
-    description: Validates motion threshold and delay
-    condition: motionThreshold > 0 && delay === 500
-    error: "Invalid motion threshold or delay"
-    guards:
-      - field: motionThreshold
-        type: number
-      - field: delay
-        type: number
-    effects:
-      - validate: motionThreshold
-      - validate: delay
-
-  - id: validate-motion-delay
-    description: Validates motion state change delay
-    condition: currentTime - lastStateChange >= delay
-    error: "State change too soon, must wait for delay"
-    guards:
-      - field: currentTime
-        type: number
-      - field: lastStateChange
-        type: number
-      - field: delay
-        type: number
-    effects:
-      - validate: currentTime
-      - validate: lastStateChange
-      - validate: delay
-
+    if: "varianceThreshold > 0"
+    then:
+      - error: "Invalid motion threshold"
+  - id: validate-control-mode
+    if: "controlMode in ['manual', 'motion']"
+    then:
+      - error: "Invalid control mode"
+  - id: validate-state-change
+    if: "currentTime - lastStateChange >= 500"
+    then:
+      - error: "State change too soon"
+guards:
+  - magnitudeHistory
+  - varianceThreshold
+  - controlMode
+  - lastStateChange
+effects:
+  - isMoving
+  - lastStateChange
 metadata:
   createdBy: system
-  tags: [motion, detection, delay] 
+  tags: [motion, detection, logic] 

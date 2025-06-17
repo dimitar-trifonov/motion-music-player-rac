@@ -144,7 +144,7 @@ events:
 
   - id: advance-to-next-track
     type: system
-    description: Automatically advances to the next track when current track ends
+    description: Automatically advances to the next track when current track ends, or to the first track if it's the last track
     triggers:
       - source:
           type: system
@@ -156,11 +156,13 @@ events:
             onError: continue
           - logic: player-control.logic#validate-next-track
             onError: continue
+          - logic: player-control.logic#validate-playlist-has-tracks
+            onError: continue
     actions:
       - type: update
         state: player.state
         fields:
-          - currentTrackId: nextTrackId
+          - currentTrackId: nextTrackId || firstTrackId
           - isLoading: true
           - currentTime: 0
     metadata:

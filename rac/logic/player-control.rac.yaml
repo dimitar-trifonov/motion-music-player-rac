@@ -151,18 +151,29 @@ rules:
       tags: [player, track]
 
   - id: validate-next-track
-    type: rule
-    condition: nextTrackId !== null && nextTrackId !== undefined
-    error: "No next track available"
-    guards:
-      - field: nextTrackId
-        type: string
-    effects:
-      - type: validate
-        field: nextTrackId
-    metadata:
-      createdBy: system
-      tags: [player, track]
+    type: validation
+    description: Validates that there is a next track available
+    conditions:
+      - type: and
+        checks:
+          - type: exists
+            field: nextTrackId
+            value: true
+    errorMessage: No next track available
+
+  - id: validate-playlist-has-tracks
+    type: validation
+    description: Validates that the playlist has at least one track
+    conditions:
+      - type: and
+        checks:
+          - type: exists
+            field: playlist
+            value: true
+          - type: greaterThan
+            field: playlist.tracks.length
+            value: 0
+    errorMessage: Playlist is empty
 
   - id: validate-mode-switch
     type: rule

@@ -4,6 +4,21 @@ type: object
 description: Logic for validating motion detection availability and permissions
 appliesTo: motion.state
 rules:
+  - id: validate-secure-context
+    description: Validates that the application is running in a secure context
+    condition: window.isSecureContext === true || window.location.hostname === "localhost"
+    error: "Device Motion API requires a secure context (HTTPS)"
+    guards:
+      - field: window.isSecureContext
+        type: boolean
+      - field: window.location.hostname
+        type: string
+    effects:
+      - validate: isAvailable
+    metadata:
+      createdBy: system
+      tags: [motion, security]
+
   - id: validate-motion-availability
     description: Validates motion detection availability
     condition: isAvailable === true
@@ -58,4 +73,4 @@ rules:
 
 metadata:
   createdBy: system
-  tags: [motion, validation] 
+  tags: [motion, validation, security] 
